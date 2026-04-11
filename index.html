@@ -54,6 +54,76 @@
       color: #0a0;
     }
 
+    /* Trash Talk Banner */
+    .trash-talk-banner {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 3000;
+      max-width: 90%;
+      text-align: center;
+      transition: transform 0.5s ease;
+      font-weight: 600;
+    }
+
+    .trash-talk-banner.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Weekly Trophies */
+    .trophies-section {
+      margin-bottom: 24px;
+      background: #fffbf0;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #ffd700;
+    }
+
+    .trophies-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-align: center;
+      color: #b8860b;
+    }
+
+    .trophy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .trophy-card {
+      background: white;
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ffd700;
+    }
+
+    .trophy-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .trophy-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #b8860b;
+      margin-bottom: 2px;
+    }
+
+    .trophy-holder {
+      font-size: 12px;
+      color: #666;
+    }
+
     .teams-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -128,9 +198,20 @@
       transform: scale(0.95);
     }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    .trash-talk-btn {
+      width: auto;
+      height: auto;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-top: 8px;
+      background: #667eea;
+      color: white;
+      border: none;
+    }
+
+    .trash-talk-btn:hover {
+      background: #5568d3;
     }
 
     .leader-card {
@@ -193,7 +274,7 @@
       background: white;
       border-radius: 12px;
       padding: 24px;
-      max-width: 400px;
+      max-width: 500px;
       width: 90%;
       max-height: 80vh;
       overflow-y: auto;
@@ -223,9 +304,34 @@
       line-height: 1.3;
     }
 
+    .photo-upload-section {
+      margin: 16px 0;
+      padding: 16px;
+      background: #f8f8f8;
+      border-radius: 8px;
+    }
+
+    .photo-upload-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .photo-preview {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    .stats-content {
+      margin-bottom: 16px;
+    }
+
     .stats-list {
       list-style: none;
       padding: 0;
+      margin-bottom: 16px;
     }
 
     .stats-list li {
@@ -237,6 +343,42 @@
 
     .stats-list li:last-child {
       border-bottom: none;
+    }
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .photo-gallery img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .trash-talk-options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .trash-talk-option {
+      width: 100%;
+      height: auto;
+      padding: 12px;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      border: none;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .trash-talk-option:hover {
+      background: #5568d3;
     }
 
     .close-btn {
@@ -278,10 +420,15 @@
       .weapon-grid {
         grid-template-columns: 1fr;
       }
+      .trophy-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="trash-talk-banner" id="trashTalkBanner"></div>
+
   <div class="container">
     <div class="header">
       <h1>🐍 Culdesac Snake Elimination Derby 🐍</h1>
@@ -289,6 +436,33 @@
     </div>
 
     <div class="status" id="status">Connecting...</div>
+
+    <!-- Weekly Trophies -->
+    <div class="trophies-section">
+      <div class="trophies-title">🏆 This Week's Champions 🏆</div>
+      <div class="trophy-grid" id="trophyGrid">
+        <div class="trophy-card">
+          <div class="trophy-icon">🩸</div>
+          <div class="trophy-name">First Blood</div>
+          <div class="trophy-holder" id="trophy-firstblood">-</div>
+        </div>
+        <div class="trophy-card">
+          <div class="trophy-icon">🔧</div>
+          <div class="trophy-name">Arsenal Master</div>
+          <div class="trophy-holder" id="trophy-arsenal">-</div>
+        </div>
+        <div class="trophy-card">
+          <div class="trophy-icon">🎯</div>
+          <div class="trophy-name">Specialist</div>
+          <div class="trophy-holder" id="trophy-specialist">-</div>
+        </div>
+        <div class="trophy-card">
+          <div class="trophy-icon">📈</div>
+          <div class="trophy-name">Comeback Kid</div>
+          <div class="trophy-holder" id="trophy-comeback">-</div>
+        </div>
+      </div>
+    </div>
 
     <div class="teams-grid">
       <div class="team-card" id="card1" onclick="showStats(1)">
@@ -299,6 +473,7 @@
           <button onclick="showWeaponSelect(1)">+</button>
           <button onclick="removePoint(1)">−</button>
         </div>
+        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(1)">💬 Trash Talk</button>
       </div>
 
       <div class="team-card" id="card2" onclick="showStats(2)">
@@ -309,6 +484,7 @@
           <button onclick="showWeaponSelect(2)">+</button>
           <button onclick="removePoint(2)">−</button>
         </div>
+        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(2)">💬 Trash Talk</button>
       </div>
 
       <div class="team-card" id="card3" onclick="showStats(3)">
@@ -319,6 +495,7 @@
           <button onclick="showWeaponSelect(3)">+</button>
           <button onclick="removePoint(3)">−</button>
         </div>
+        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(3)">💬 Trash Talk</button>
       </div>
 
       <div class="team-card" id="card4" onclick="showStats(4)">
@@ -329,6 +506,7 @@
           <button onclick="showWeaponSelect(4)">+</button>
           <button onclick="removePoint(4)">−</button>
         </div>
+        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(4)">💬 Trash Talk</button>
       </div>
     </div>
 
@@ -347,6 +525,11 @@
     <div class="modal-content">
       <div class="modal-header">Choose your weapon</div>
       <div class="weapon-grid" id="weaponGrid"></div>
+      <div class="photo-upload-section">
+        <label class="photo-upload-label">📸 Upload kill photo (optional)</label>
+        <input type="file" id="photoInput" accept="image/*" capture="environment" style="width: 100%;">
+        <img id="photoPreview" class="photo-preview" style="display: none;">
+      </div>
       <button class="close-btn" onclick="closeWeaponModal()">Cancel</button>
     </div>
   </div>
@@ -355,8 +538,20 @@
   <div class="modal" id="statsModal">
     <div class="modal-content">
       <div class="modal-header" id="statsHeader"></div>
-      <ul class="stats-list" id="statsList"></ul>
+      <div class="stats-content">
+        <ul class="stats-list" id="statsList"></ul>
+        <div id="photoGallery" class="photo-gallery"></div>
+      </div>
       <button class="close-btn" onclick="closeStatsModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Trash Talk Modal -->
+  <div class="modal" id="trashTalkModal">
+    <div class="modal-content">
+      <div class="modal-header">Choose your trash talk</div>
+      <div class="trash-talk-options" id="trashTalkOptions"></div>
+      <button class="close-btn" onclick="closeTrashTalkModal()">Cancel</button>
     </div>
   </div>
 
@@ -365,12 +560,22 @@
     <img id="celebrationGif" src="" alt="Celebration!">
   </div>
 
+  <!-- Audio elements -->
+  <audio id="killSound" preload="auto">
+    <source src="https://cdn.freesound.org/previews/270/270319_5123851-lq.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="trophySound" preload="auto">
+    <source src="https://cdn.freesound.org/previews/397/397355_7218767-lq.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="trashTalkSound" preload="auto">
+    <source src="https://cdn.freesound.org/previews/320/320655_5260872-lq.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-    import { getDatabase, ref, onValue, set, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+    import { getDatabase, ref, onValue, set, update, push } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
-    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAcGq-hAwjt5nfdvj6qGtUUdtwgEEnRQv8",
       authDomain: "snake-scoreboard-a0fd5.firebaseapp.com",
@@ -387,6 +592,19 @@
       'Stick', 'Bare Hands'
     ];
 
+    const trashTalkMessages = [
+      "🔥 We're coming for the crown!",
+      "💀 Fear the snake slayers!",
+      "⚠️ Your days are numbered!",
+      "🎯 Can't touch this!",
+      "👑 Bow down to the champions!",
+      "💪 Snake slaying is our specialty!",
+      "🐍 Another one bites the dust!",
+      "⚡ Unstoppable force!",
+      "🏆 Victory is ours!",
+      "😎 Too easy!"
+    ];
+
     const celebrationGifs = [
       'https://i.pinimg.com/originals/25/56/e1/2556e116aef6d2d60167fb1ddaa40f3f.gif',
       'https://static.wikia.nocookie.net/the-animated-disney-robin-hood/images/c/c3/WhoppingTintedBaboon-size_restricted.gif',
@@ -394,26 +612,29 @@
       'https://i.makeagif.com/media/5-16-2021/gOH_8F.gif'
     ];
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     const scoresRef = ref(database, 'scores');
+    const trashTalkRef = ref(database, 'trashTalk');
+    const weeklyStatsRef = ref(database, 'weeklyStats');
 
-    // Initialize scores if they don't exist
     const initialScores = {
-      team1: { total: 0, weapons: {} },
-      team2: { total: 0, weapons: {} },
-      team3: { total: 0, weapons: {} },
-      team4: { total: 0, weapons: {} }
+      team1: { total: 0, weapons: {}, photos: [], weeklyKills: 0 },
+      team2: { total: 0, weapons: {}, photos: [], weeklyKills: 0 },
+      team3: { total: 0, weapons: {}, photos: [], weeklyKills: 0 },
+      team4: { total: 0, weapons: {}, photos: [], weeklyKills: 0 }
     };
 
     let currentTeam = null;
+    let selectedPhoto = null;
+    let lastWeekScores = { team1: 0, team2: 0, team3: 0, team4: 0 };
 
     // Listen for score updates
     onValue(scoresRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         updateDisplay(data);
+        updateTrophies(data);
         document.getElementById('status').textContent = '🟢 Live - synced with everyone';
         document.getElementById('status').className = 'status connected';
       } else {
@@ -421,19 +642,29 @@
       }
     });
 
+    // Listen for trash talk
+    onValue(trashTalkRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const messages = Object.values(data);
+        const latest = messages[messages.length - 1];
+        if (latest && Date.now() - latest.timestamp < 5000) {
+          showTrashTalkBanner(latest.message);
+        }
+      }
+    });
+
     function updateDisplay(scores) {
       const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
       
-      // Update each team's score
       for (let i = 1; i <= 4; i++) {
         const scoreEl = document.getElementById(`team${i}-score`);
-        const teamData = scores[`team${i}`] || { total: 0, weapons: {} };
+        const teamData = scores[`team${i}`] || { total: 0, weapons: {}, photos: [] };
         const newScore = teamData.total || 0;
         const oldScore = parseInt(scoreEl.textContent);
         
         scoreEl.textContent = newScore;
         
-        // Pulse animation when score changes
         if (newScore !== oldScore && newScore > oldScore) {
           const card = document.getElementById(`card${i}`);
           card.classList.add('updated');
@@ -441,7 +672,6 @@
         }
       }
 
-      // Update leader
       const scoresArray = [
         scores.team1?.total || 0,
         scores.team2?.total || 0,
@@ -466,6 +696,69 @@
       }
     }
 
+    function updateTrophies(scores) {
+      const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
+      
+      // First Blood - first kill this week
+      let firstBlood = '-';
+      let earliestKill = Infinity;
+      for (let i = 1; i <= 4; i++) {
+        const weeklyKills = scores[`team${i}`]?.weeklyKills || 0;
+        if (weeklyKills > 0 && weeklyKills < earliestKill) {
+          earliestKill = weeklyKills;
+          firstBlood = teamNames[i - 1];
+        }
+      }
+      
+      // Arsenal Master - most different weapons
+      let arsenalMaster = '-';
+      let maxWeapons = 0;
+      for (let i = 1; i <= 4; i++) {
+        const weapons = scores[`team${i}`]?.weapons || {};
+        const count = Object.keys(weapons).length;
+        if (count > maxWeapons) {
+          maxWeapons = count;
+          arsenalMaster = teamNames[i - 1];
+        }
+      }
+      
+      // Specialist - most kills with single weapon
+      let specialist = '-';
+      let maxSingleWeapon = 0;
+      for (let i = 1; i <= 4; i++) {
+        const weapons = scores[`team${i}`]?.weapons || {};
+        const max = Math.max(...Object.values(weapons), 0);
+        if (max > maxSingleWeapon) {
+          maxSingleWeapon = max;
+          specialist = teamNames[i - 1];
+        }
+      }
+      
+      // Comeback Kid - biggest improvement
+      let comebackKid = '-';
+      let maxImprovement = 0;
+      for (let i = 1; i <= 4; i++) {
+        const current = scores[`team${i}`]?.weeklyKills || 0;
+        const last = lastWeekScores[`team${i}`] || 0;
+        const improvement = current - last;
+        if (improvement > maxImprovement) {
+          maxImprovement = improvement;
+          comebackKid = teamNames[i - 1];
+        }
+      }
+      
+      document.getElementById('trophy-firstblood').textContent = firstBlood;
+      document.getElementById('trophy-arsenal').textContent = arsenalMaster;
+      document.getElementById('trophy-specialist').textContent = specialist;
+      document.getElementById('trophy-comeback').textContent = comebackKid;
+    }
+
+    function playSound(soundId) {
+      const audio = document.getElementById(soundId);
+      audio.currentTime = 0;
+      audio.play().catch(e => console.log('Audio play failed:', e));
+    }
+
     function showCelebration() {
       const randomGif = celebrationGifs[Math.floor(Math.random() * celebrationGifs.length)];
       const celebrationEl = document.getElementById('celebration');
@@ -473,16 +766,34 @@
       
       gifEl.src = randomGif;
       celebrationEl.classList.add('show');
+      playSound('killSound');
       
       setTimeout(() => {
         celebrationEl.classList.remove('show');
       }, 2000);
     }
 
+    function showTrashTalkBanner(message) {
+      const banner = document.getElementById('trashTalkBanner');
+      banner.textContent = message;
+      banner.classList.add('show');
+      playSound('trashTalkSound');
+      
+      setTimeout(() => {
+        banner.classList.remove('show');
+      }, 4000);
+    }
+
     window.showWeaponSelect = function(team) {
       currentTeam = team;
+      selectedPhoto = null;
       const modal = document.getElementById('weaponModal');
       const grid = document.getElementById('weaponGrid');
+      const photoInput = document.getElementById('photoInput');
+      const photoPreview = document.getElementById('photoPreview');
+      
+      photoInput.value = '';
+      photoPreview.style.display = 'none';
       
       grid.innerHTML = '';
       weapons.forEach(weapon => {
@@ -493,12 +804,26 @@
         grid.appendChild(btn);
       });
       
+      photoInput.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            selectedPhoto = event.target.result;
+            photoPreview.src = selectedPhoto;
+            photoPreview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      
       modal.classList.add('show');
     };
 
     window.closeWeaponModal = function() {
       document.getElementById('weaponModal').classList.remove('show');
       currentTeam = null;
+      selectedPhoto = null;
     };
 
     async function addPointWithWeapon(team, weapon) {
@@ -507,15 +832,26 @@
       });
       const currentScores = snapshot.val() || initialScores;
       const teamKey = `team${team}`;
-      const teamData = currentScores[teamKey] || { total: 0, weapons: {} };
+      const teamData = currentScores[teamKey] || { total: 0, weapons: {}, photos: [], weeklyKills: 0 };
       
       const newWeapons = { ...teamData.weapons };
       newWeapons[weapon] = (newWeapons[weapon] || 0) + 1;
       
+      const newPhotos = [...(teamData.photos || [])];
+      if (selectedPhoto) {
+        newPhotos.push({
+          data: selectedPhoto,
+          weapon: weapon,
+          timestamp: Date.now()
+        });
+      }
+      
       await update(scoresRef, {
         [teamKey]: {
           total: (teamData.total || 0) + 1,
-          weapons: newWeapons
+          weapons: newWeapons,
+          photos: newPhotos,
+          weeklyKills: (teamData.weeklyKills || 0) + 1
         }
       });
       
@@ -529,7 +865,7 @@
       });
       const currentScores = snapshot.val() || initialScores;
       const teamKey = `team${team}`;
-      const teamData = currentScores[teamKey] || { total: 0, weapons: {} };
+      const teamData = currentScores[teamKey] || { total: 0, weapons: {}, photos: [] };
       const currentScore = teamData.total || 0;
       
       if (currentScore > 0) {
@@ -545,14 +881,16 @@
       });
       const scores = snapshot.val() || initialScores;
       const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
-      const teamData = scores[`team${team}`] || { total: 0, weapons: {} };
+      const teamData = scores[`team${team}`] || { total: 0, weapons: {}, photos: [] };
       
       const modal = document.getElementById('statsModal');
       const header = document.getElementById('statsHeader');
       const list = document.getElementById('statsList');
+      const gallery = document.getElementById('photoGallery');
       
       header.textContent = `${teamNames[team - 1]} - ${teamData.total} kills`;
       list.innerHTML = '';
+      gallery.innerHTML = '';
       
       if (!teamData.weapons || Object.keys(teamData.weapons).length === 0) {
         const li = document.createElement('li');
@@ -569,12 +907,57 @@
         });
       }
       
+      if (teamData.photos && teamData.photos.length > 0) {
+        teamData.photos.forEach(photo => {
+          const img = document.createElement('img');
+          img.src = photo.data;
+          img.onclick = () => {
+            window.open(photo.data, '_blank');
+          };
+          gallery.appendChild(img);
+        });
+      }
+      
       modal.classList.add('show');
     };
 
     window.closeStatsModal = function() {
       document.getElementById('statsModal').classList.remove('show');
     };
+
+    window.showTrashTalk = function(team) {
+      const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
+      const modal = document.getElementById('trashTalkModal');
+      const options = document.getElementById('trashTalkOptions');
+      
+      options.innerHTML = '';
+      trashTalkMessages.forEach(msg => {
+        const btn = document.createElement('button');
+        btn.className = 'trash-talk-option';
+        btn.textContent = msg;
+        btn.onclick = () => sendTrashTalk(team, msg);
+        options.appendChild(btn);
+      });
+      
+      modal.classList.add('show');
+    };
+
+    window.closeTrashTalkModal = function() {
+      document.getElementById('trashTalkModal').classList.remove('show');
+    };
+
+    async function sendTrashTalk(team, message) {
+      const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
+      const fullMessage = `${teamNames[team - 1]}: ${message}`;
+      
+      await push(trashTalkRef, {
+        team: team,
+        message: fullMessage,
+        timestamp: Date.now()
+      });
+      
+      closeTrashTalkModal();
+    }
 
     window.resetAll = function() {
       if (confirm('Are you sure you want to reset all scores? This will affect everyone viewing the scoreboard.')) {
