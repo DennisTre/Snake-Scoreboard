@@ -107,7 +107,7 @@
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
-      margin-top: 80px;
+      margin-top: 120px;
     }
 
     .team-wrapper {
@@ -568,14 +568,14 @@
   <!-- Weapon Selection Modal -->
   <div class="modal" id="weaponModal">
     <div class="modal-content">
-      <div class="modal-header">Choose your weapon</div>
-      <div class="weapon-grid" id="weaponGrid"></div>
+      <div class="modal-header">Record your kill</div>
       <div class="photo-upload-section">
         <label class="photo-upload-label">📸 Upload kill photo (optional)</label>
         <input type="file" id="photoInput" accept="image/*" capture="environment" style="width: 100%;">
         <img id="photoPreview" class="photo-preview" style="display: none;">
-        <p style="font-size: 12px; color: #999; margin-top: 8px; text-align: center;">After uploading, click a weapon above to submit</p>
       </div>
+      <p style="font-size: 15px; font-weight: 600; margin: 16px 0 8px; text-align: center;">SELECT WEAPON TO SUBMIT</p>
+      <div class="weapon-grid" id="weaponGrid"></div>
       <button class="close-btn" onclick="closeWeaponModal()">Cancel</button>
     </div>
   </div>
