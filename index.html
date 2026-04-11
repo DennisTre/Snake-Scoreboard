@@ -106,6 +106,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 16px;
+      row-gap: 100px;
       margin-bottom: 24px;
       margin-top: 120px;
     }
@@ -470,30 +471,33 @@
 
     <div class="status" id="status">Connecting...</div>
 
-    <!-- Weekly Trophies -->
+    <!-- Stats Section -->
     <div class="trophies-section">
-      <div class="trophies-title">🏆 This Week's Champions 🏆</div>
+      <div class="trophies-title">📊 Competition Stats 📊</div>
       <div class="trophy-grid" id="trophyGrid">
         <div class="trophy-card">
-          <div class="trophy-icon">🩸</div>
-          <div class="trophy-name">First Blood</div>
-          <div class="trophy-holder" id="trophy-firstblood">-</div>
+          <div class="trophy-icon">⚡</div>
+          <div class="trophy-name">Latest Kill</div>
+          <div class="trophy-holder" id="stat-latest">-</div>
         </div>
         <div class="trophy-card">
-          <div class="trophy-icon">🔧</div>
-          <div class="trophy-name">Arsenal Master</div>
-          <div class="trophy-holder" id="trophy-arsenal">-</div>
+          <div class="trophy-icon">👑</div>
+          <div class="trophy-name">Most Kills This Week</div>
+          <div class="trophy-holder" id="stat-weekly">-</div>
         </div>
         <div class="trophy-card">
-          <div class="trophy-icon">🎯</div>
-          <div class="trophy-name">Specialist</div>
-          <div class="trophy-holder" id="trophy-specialist">-</div>
+          <div class="trophy-icon">📸</div>
+          <div class="trophy-name">Best Photo</div>
+          <div class="trophy-holder" id="stat-photo">-</div>
         </div>
         <div class="trophy-card">
-          <div class="trophy-icon">📈</div>
-          <div class="trophy-name">Comeback Kid</div>
-          <div class="trophy-holder" id="trophy-comeback">-</div>
+          <div class="trophy-icon">🌅</div>
+          <div class="trophy-name">Early Bird</div>
+          <div class="trophy-holder" id="stat-earlybird">-</div>
         </div>
+      </div>
+      <div id="bestPhotoDisplay" style="margin-top: 12px; text-align: center; display: none;">
+        <img id="bestPhotoImg" style="max-width: 200px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
       </div>
     </div>
 
