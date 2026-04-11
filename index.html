@@ -54,28 +54,6 @@
       color: #0a0;
     }
 
-    /* Trash Talk Banner */
-    .trash-talk-banner {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 16px 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      z-index: 3000;
-      max-width: 90%;
-      text-align: center;
-      transition: transform 0.5s ease;
-      font-weight: 600;
-    }
-
-    .trash-talk-banner.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
     /* Weekly Trophies */
     .trophies-section {
       margin-bottom: 24px;
@@ -129,6 +107,57 @@
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
+    }
+
+    .team-wrapper {
+      position: relative;
+    }
+
+    /* Speech Bubble */
+    .speech-bubble {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      max-width: 200px;
+      word-wrap: break-word;
+      display: none;
+      z-index: 10;
+      animation: popIn 0.3s ease;
+    }
+
+    .speech-bubble.show {
+      display: block;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 8px solid transparent;
+      border-top-color: #764ba2;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: translateX(-50%) scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+      }
     }
 
     .team-card {
@@ -423,12 +452,15 @@
       .trophy-grid {
         grid-template-columns: 1fr 1fr;
       }
+      .speech-bubble {
+        max-width: 150px;
+        font-size: 12px;
+        padding: 10px 12px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="trash-talk-banner" id="trashTalkBanner"></div>
-
   <div class="container">
     <div class="header">
       <h1>🐍 Culdesac Snake Elimination Derby 🐍</h1>
@@ -465,48 +497,60 @@
     </div>
 
     <div class="teams-grid">
-      <div class="team-card" id="card1" onclick="showStats(1)">
-        <div class="team-name">Jason & Michelle</div>
-        <div class="score" id="team1-score">0</div>
-        <div class="tap-hint">Tap to view stats</div>
-        <div class="buttons" onclick="event.stopPropagation()">
-          <button onclick="showWeaponSelect(1)">+</button>
-          <button onclick="removePoint(1)">−</button>
+      <div class="team-wrapper">
+        <div class="speech-bubble" id="bubble1"></div>
+        <div class="team-card" id="card1" onclick="showStats(1)">
+          <div class="team-name">Jason & Michelle</div>
+          <div class="score" id="team1-score">0</div>
+          <div class="tap-hint">Tap to view stats</div>
+          <div class="buttons" onclick="event.stopPropagation()">
+            <button onclick="showWeaponSelect(1)">+</button>
+            <button onclick="removePoint(1)">−</button>
+          </div>
+          <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(1)">💬 Trash Talk</button>
         </div>
-        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(1)">💬 Trash Talk</button>
       </div>
 
-      <div class="team-card" id="card2" onclick="showStats(2)">
-        <div class="team-name">Dennis & Taylor</div>
-        <div class="score" id="team2-score">0</div>
-        <div class="tap-hint">Tap to view stats</div>
-        <div class="buttons" onclick="event.stopPropagation()">
-          <button onclick="showWeaponSelect(2)">+</button>
-          <button onclick="removePoint(2)">−</button>
+      <div class="team-wrapper">
+        <div class="speech-bubble" id="bubble2"></div>
+        <div class="team-card" id="card2" onclick="showStats(2)">
+          <div class="team-name">Dennis & Taylor</div>
+          <div class="score" id="team2-score">0</div>
+          <div class="tap-hint">Tap to view stats</div>
+          <div class="buttons" onclick="event.stopPropagation()">
+            <button onclick="showWeaponSelect(2)">+</button>
+            <button onclick="removePoint(2)">−</button>
+          </div>
+          <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(2)">💬 Trash Talk</button>
         </div>
-        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(2)">💬 Trash Talk</button>
       </div>
 
-      <div class="team-card" id="card3" onclick="showStats(3)">
-        <div class="team-name">Andrew & Ashley</div>
-        <div class="score" id="team3-score">0</div>
-        <div class="tap-hint">Tap to view stats</div>
-        <div class="buttons" onclick="event.stopPropagation()">
-          <button onclick="showWeaponSelect(3)">+</button>
-          <button onclick="removePoint(3)">−</button>
+      <div class="team-wrapper">
+        <div class="speech-bubble" id="bubble3"></div>
+        <div class="team-card" id="card3" onclick="showStats(3)">
+          <div class="team-name">Andrew & Ashley</div>
+          <div class="score" id="team3-score">0</div>
+          <div class="tap-hint">Tap to view stats</div>
+          <div class="buttons" onclick="event.stopPropagation()">
+            <button onclick="showWeaponSelect(3)">+</button>
+            <button onclick="removePoint(3)">−</button>
+          </div>
+          <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(3)">💬 Trash Talk</button>
         </div>
-        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(3)">💬 Trash Talk</button>
       </div>
 
-      <div class="team-card" id="card4" onclick="showStats(4)">
-        <div class="team-name">Gabe & Caroline</div>
-        <div class="score" id="team4-score">0</div>
-        <div class="tap-hint">Tap to view stats</div>
-        <div class="buttons" onclick="event.stopPropagation()">
-          <button onclick="showWeaponSelect(4)">+</button>
-          <button onclick="removePoint(4)">−</button>
+      <div class="team-wrapper">
+        <div class="speech-bubble" id="bubble4"></div>
+        <div class="team-card" id="card4" onclick="showStats(4)">
+          <div class="team-name">Gabe & Caroline</div>
+          <div class="score" id="team4-score">0</div>
+          <div class="tap-hint">Tap to view stats</div>
+          <div class="buttons" onclick="event.stopPropagation()">
+            <button onclick="showWeaponSelect(4)">+</button>
+            <button onclick="removePoint(4)">−</button>
+          </div>
+          <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(4)">💬 Trash Talk</button>
         </div>
-        <button class="trash-talk-btn" onclick="event.stopPropagation(); showTrashTalk(4)">💬 Trash Talk</button>
       </div>
     </div>
 
@@ -574,7 +618,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-    import { getDatabase, ref, onValue, set, update, push } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+    import { getDatabase, ref, onValue, set, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyAcGq-hAwjt5nfdvj6qGtUUdtwgEEnRQv8",
@@ -615,20 +659,17 @@
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     const scoresRef = ref(database, 'scores');
-    const trashTalkRef = ref(database, 'trashTalk');
-    const weeklyStatsRef = ref(database, 'weeklyStats');
 
     const initialScores = {
-      team1: { total: 0, weapons: {}, photos: [], weeklyKills: 0 },
-      team2: { total: 0, weapons: {}, photos: [], weeklyKills: 0 },
-      team3: { total: 0, weapons: {}, photos: [], weeklyKills: 0 },
-      team4: { total: 0, weapons: {}, photos: [], weeklyKills: 0 }
+      team1: { total: 0, weapons: {}, photos: [], weeklyKills: 0, trashTalk: null },
+      team2: { total: 0, weapons: {}, photos: [], weeklyKills: 0, trashTalk: null },
+      team3: { total: 0, weapons: {}, photos: [], weeklyKills: 0, trashTalk: null },
+      team4: { total: 0, weapons: {}, photos: [], weeklyKills: 0, trashTalk: null }
     };
 
     let currentTeam = null;
     let selectedPhoto = null;
     let lastWeekScores = { team1: 0, team2: 0, team3: 0, team4: 0 };
-    let lastTrashTalkId = null;
 
     // Listen for score updates
     onValue(scoresRef, (snapshot) => {
@@ -636,25 +677,11 @@
       if (data) {
         updateDisplay(data);
         updateTrophies(data);
+        updateTrashTalkBubbles(data);
         document.getElementById('status').textContent = '🟢 Live - synced with everyone';
         document.getElementById('status').className = 'status connected';
       } else {
         set(scoresRef, initialScores);
-      }
-    });
-
-    // Listen for trash talk
-    onValue(trashTalkRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const entries = Object.entries(data);
-        if (entries.length > 0) {
-          const [latestId, latestMessage] = entries[entries.length - 1];
-          if (latestId !== lastTrashTalkId) {
-            lastTrashTalkId = latestId;
-            showTrashTalkBanner(latestMessage.message);
-          }
-        }
       }
     });
 
@@ -700,10 +727,26 @@
       }
     }
 
+    function updateTrashTalkBubbles(scores) {
+      const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+      
+      for (let i = 1; i <= 4; i++) {
+        const teamData = scores[`team${i}`] || {};
+        const bubble = document.getElementById(`bubble${i}`);
+        
+        if (teamData.trashTalk && teamData.trashTalk.timestamp > oneDayAgo) {
+          bubble.textContent = teamData.trashTalk.message;
+          bubble.classList.add('show');
+        } else {
+          bubble.classList.remove('show');
+        }
+      }
+    }
+
     function updateTrophies(scores) {
       const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
       
-      // First Blood - first kill this week
+      // First Blood
       let firstBlood = '-';
       let earliestKill = Infinity;
       for (let i = 1; i <= 4; i++) {
@@ -714,7 +757,7 @@
         }
       }
       
-      // Arsenal Master - most different weapons
+      // Arsenal Master
       let arsenalMaster = '-';
       let maxWeapons = 0;
       for (let i = 1; i <= 4; i++) {
@@ -726,7 +769,7 @@
         }
       }
       
-      // Specialist - most kills with single weapon
+      // Specialist
       let specialist = '-';
       let maxSingleWeapon = 0;
       for (let i = 1; i <= 4; i++) {
@@ -738,7 +781,7 @@
         }
       }
       
-      // Comeback Kid - biggest improvement
+      // Comeback Kid
       let comebackKid = '-';
       let maxImprovement = 0;
       for (let i = 1; i <= 4; i++) {
@@ -775,17 +818,6 @@
       setTimeout(() => {
         celebrationEl.classList.remove('show');
       }, 2000);
-    }
-
-    function showTrashTalkBanner(message) {
-      const banner = document.getElementById('trashTalkBanner');
-      banner.textContent = message;
-      banner.classList.add('show');
-      playSound('trashTalkSound');
-      
-      setTimeout(() => {
-        banner.classList.remove('show');
-      }, 4000);
     }
 
     window.showWeaponSelect = function(team) {
@@ -855,7 +887,8 @@
           total: (teamData.total || 0) + 1,
           weapons: newWeapons,
           photos: newPhotos,
-          weeklyKills: (teamData.weeklyKills || 0) + 1
+          weeklyKills: (teamData.weeklyKills || 0) + 1,
+          trashTalk: teamData.trashTalk || null
         }
       });
       
@@ -930,7 +963,6 @@
     };
 
     window.showTrashTalk = function(team) {
-      const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
       const modal = document.getElementById('trashTalkModal');
       const options = document.getElementById('trashTalkOptions');
       
@@ -951,15 +983,21 @@
     };
 
     async function sendTrashTalk(team, message) {
-      const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
-      const fullMessage = `${teamNames[team - 1]}: ${message}`;
-      
       closeTrashTalkModal();
+      playSound('trashTalkSound');
       
-      await push(trashTalkRef, {
-        team: team,
-        message: fullMessage,
-        timestamp: Date.now()
+      const snapshot = await new Promise(resolve => {
+        onValue(scoresRef, resolve, { onlyOnce: true });
+      });
+      const currentScores = snapshot.val() || initialScores;
+      const teamKey = `team${team}`;
+      const teamData = currentScores[teamKey] || initialScores[teamKey];
+      
+      await update(scoresRef, {
+        [`${teamKey}/trashTalk`]: {
+          message: message,
+          timestamp: Date.now()
+        }
       });
     }
 
