@@ -950,13 +950,13 @@
       const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
       const fullMessage = `${teamNames[team - 1]}: ${message}`;
       
+      closeTrashTalkModal();
+      
       await push(trashTalkRef, {
         team: team,
         message: fullMessage,
         timestamp: Date.now()
       });
-      
-      closeTrashTalkModal();
     }
 
     window.resetAll = function() {
