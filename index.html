@@ -469,24 +469,24 @@
       <div class="trophies-title">🏆 This Week's Champions 🏆</div>
       <div class="trophy-grid">
         <div class="trophy-card">
-          <div class="trophy-icon">🩸</div>
-          <div class="trophy-name">First Blood</div>
-          <div class="trophy-holder" id="trophy-firstblood">-</div>
-        </div>
-        <div class="trophy-card">
-          <div class="trophy-icon">🔧</div>
-          <div class="trophy-name">Arsenal Master</div>
-          <div class="trophy-holder" id="trophy-arsenal">-</div>
-        </div>
-        <div class="trophy-card">
-          <div class="trophy-icon">🎯</div>
-          <div class="trophy-name">Specialist</div>
-          <div class="trophy-holder" id="trophy-specialist">-</div>
+          <div class="trophy-icon">📸</div>
+          <div class="trophy-name">Best Photo</div>
+          <div class="trophy-holder" id="trophy-photo">-</div>
         </div>
         <div class="trophy-card">
           <div class="trophy-icon">📈</div>
-          <div class="trophy-name">Comeback Kid</div>
-          <div class="trophy-holder" id="trophy-comeback">-</div>
+          <div class="trophy-name">Most Improved</div>
+          <div class="trophy-holder" id="trophy-improved">-</div>
+        </div>
+        <div class="trophy-card">
+          <div class="trophy-icon">🔥</div>
+          <div class="trophy-name">Hot Streak</div>
+          <div class="trophy-holder" id="trophy-streak">-</div>
+        </div>
+        <div class="trophy-card">
+          <div class="trophy-icon">🩸</div>
+          <div class="trophy-name">First Blood</div>
+          <div class="trophy-holder" id="trophy-firstblood">-</div>
         </div>
       </div>
     </div>
@@ -735,39 +735,19 @@
     function updateTrophies(scores) {
       const teamNames = ['Jason & Michelle', 'Dennis & Taylor', 'Andrew & Ashley', 'Gabe & Caroline'];
       
-      let firstBlood = '-';
-      let earliestKill = Infinity;
+      // Best Photo - team with most photos uploaded
+      let bestPhoto = '-';
+      let maxPhotos = 0;
       for (let i = 1; i <= 4; i++) {
-        const weeklyKills = scores[`team${i}`]?.weeklyKills || 0;
-        if (weeklyKills > 0 && weeklyKills < earliestKill) {
-          earliestKill = weeklyKills;
-          firstBlood = teamNames[i - 1];
+        const photos = scores[`team${i}`]?.photos || [];
+        if (photos.length > maxPhotos) {
+          maxPhotos = photos.length;
+          bestPhoto = teamNames[i - 1];
         }
       }
       
-      let arsenalMaster = '-';
-      let maxWeapons = 0;
-      for (let i = 1; i <= 4; i++) {
-        const weapons = scores[`team${i}`]?.weapons || {};
-        const count = Object.keys(weapons).length;
-        if (count > maxWeapons) {
-          maxWeapons = count;
-          arsenalMaster = teamNames[i - 1];
-        }
-      }
-      
-      let specialist = '-';
-      let maxSingleWeapon = 0;
-      for (let i = 1; i <= 4; i++) {
-        const weapons = scores[`team${i}`]?.weapons || {};
-        const max = Math.max(...Object.values(weapons), 0);
-        if (max > maxSingleWeapon) {
-          maxSingleWeapon = max;
-          specialist = teamNames[i - 1];
-        }
-      }
-      
-      let comebackKid = '-';
+      // Most Improved - biggest increase from last week
+      let mostImproved = '-';
       let maxImprovement = 0;
       for (let i = 1; i <= 4; i++) {
         const current = scores[`team${i}`]?.weeklyKills || 0;
@@ -775,14 +755,39 @@
         const improvement = current - last;
         if (improvement > maxImprovement) {
           maxImprovement = improvement;
-          comebackKid = teamNames[i - 1];
+          mostImproved = teamNames[i - 1];
         }
       }
       
+      // Hot Streak - most kills this week
+      let hotStreak = '-';
+      let maxWeekly = 0;
+      for (let i = 1; i <= 4; i++) {
+        const weeklyKills = scores[`team${i}`]?.weeklyKills || 0;
+        if (weeklyKills > maxWeekly) {
+          maxWeekly = weeklyKills;
+          hotStreak = teamNames[i - 1];
+        }
+      }
+      
+      // First Blood - first kill of the week
+      let firstBlood = '-';
+      let earliestTimestamp = Infinity;
+      for (let i = 1; i <= 4; i++) {
+        const photos = scores[`team${i}`]?.photos || [];
+        if (photos.length > 0) {
+          const earliest = Math.min(...photos.map(p => p.timestamp));
+          if (earliest < earliestTimestamp) {
+            earliestTimestamp = earliest;
+            firstBlood = teamNames[i - 1];
+          }
+        }
+      }
+      
+      document.getElementById('trophy-photo').textContent = bestPhoto;
+      document.getElementById('trophy-improved').textContent = mostImproved;
+      document.getElementById('trophy-streak').textContent = hotStreak;
       document.getElementById('trophy-firstblood').textContent = firstBlood;
-      document.getElementById('trophy-arsenal').textContent = arsenalMaster;
-      document.getElementById('trophy-specialist').textContent = specialist;
-      document.getElementById('trophy-comeback').textContent = comebackKid;
     }
 
     function playSound(soundId) {
