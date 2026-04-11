@@ -628,6 +628,7 @@
     let currentTeam = null;
     let selectedPhoto = null;
     let lastWeekScores = { team1: 0, team2: 0, team3: 0, team4: 0 };
+    let lastTrashTalkId = null;
 
     // Listen for score updates
     onValue(scoresRef, (snapshot) => {
@@ -646,10 +647,13 @@
     onValue(trashTalkRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const messages = Object.values(data);
-        const latest = messages[messages.length - 1];
-        if (latest && Date.now() - latest.timestamp < 5000) {
-          showTrashTalkBanner(latest.message);
+        const entries = Object.entries(data);
+        if (entries.length > 0) {
+          const [latestId, latestMessage] = entries[entries.length - 1];
+          if (latestId !== lastTrashTalkId) {
+            lastTrashTalkId = latestId;
+            showTrashTalkBanner(latestMessage.message);
+          }
         }
       }
     });
