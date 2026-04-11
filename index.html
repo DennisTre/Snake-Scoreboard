@@ -459,7 +459,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>🐍 Culdesac Snake Elimination Derby 🐍</h1>
+      <h1>🐍 Slither Showdown 🐍</h1>
       <p class="subtitle">May the best serpent slayer win</p>
     </div>
 
@@ -665,6 +665,7 @@
     let currentTeam = null;
     let selectedPhoto = null;
     let lastWeekScores = { team1: 0, team2: 0, team3: 0, team4: 0 };
+    let lastGifIndex = -1;
 
     onValue(scoresRef, (snapshot) => {
       const data = snapshot.val();
@@ -802,7 +803,14 @@
     }
 
     function showCelebration() {
-      const randomGif = celebrationGifs[Math.floor(Math.random() * celebrationGifs.length)];
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * celebrationGifs.length);
+      } while (randomIndex === lastGifIndex && celebrationGifs.length > 1);
+      
+      lastGifIndex = randomIndex;
+      const randomGif = celebrationGifs[randomIndex];
+      
       const celebrationEl = document.getElementById('celebration');
       const gifEl = document.getElementById('celebrationGif');
       
